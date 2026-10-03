@@ -1,0 +1,65 @@
+# ai-agent-config
+
+すべてのローカルリポジトリで使うCodexの共通指示、コマンド実行ルール、自作skillsをGitで管理します。
+
+| 管理対象 | ソース | 配置先 | 配置方法 |
+| --- | --- | --- | --- |
+| 行動・開発の共通指示 | `codex/AGENTS.md` | `~/.codex/AGENTS.md` | コピー |
+| コマンド実行ルール | `codex/rules/shared.rules` | `~/.codex/rules/shared.rules` | コピー |
+| 自作skills | `skills/<スキル名>/` | `~/.agents/skills/<スキル名>` | シンボリックリンク |
+
+初期の共通指示は、日本語での回答、結論と根拠の簡潔な説明、変更内容と検証結果の報告です。
+実行ルールはコメントのみで、初期状態では許可・禁止を追加しません。skillsも未登録です。
+
+## インストール
+
+macOS/LinuxのBashで、cloneしたリポジトリのルートから実行します。
+
+```sh
+./install.sh --dry-run
+./install.sh
+```
+
+dry-runは衝突を確認し、予定する配置を表示するだけで、ディレクトリも作成しません。
+同じ内容のコピーや同じリンクはスキップします。異なるファイル、ディレクトリ、リンクがあれば、
+配置を始める前に終了します。既存設定は内容を確認し、バックアップとして移動してから再実行してください。
+自動の上書き・削除・バックアップは行いません。
+
+`default.rules`など管理対象外のファイルには触れません。
+`~/.codex/AGENTS.override.md`が存在すると通知します。非空のoverrideは共通の`AGENTS.md`より優先されます。
+
+配置先は通常のホーム配下に固定しています。`CODEX_HOME`を変更している環境では、その配置先へ別途適用してください。
+検証用に`./install.sh --target-home /path/to/temporary-home`で別のホームを指定できます。
+
+リンクはclone先の絶対パスを参照します。インストール後にclone先を移動した場合は、古いリンクを確認・削除し、再配置してください。
+
+## 更新と取り外し
+
+1. このリポジトリで設定を編集・レビューし、Git管理します。他のPCでは`git pull --ff-only`で更新します。
+2. skillsの既存ファイルの変更はリンク先に反映されます。skillsを追加した場合はスクリプトを再実行します。
+3. コピーした共通指示・実行ルールが変わると再実行時に衝突します。配置済みファイルを確認・バックアップとして移動してから再実行します。
+4. 実行ルールの変更後はCodexを再起動します。共通指示も新しいセッションで確認します。skillsの変更が表示されない場合は再起動します。
+
+取り外しやスキルの削除・改名では、表にある配置先だけを確認して手動で取り除きます。
+スクリプトは古いリンクを自動削除しません。
+
+## 設定の使い分け
+
+- 共通の応答・作業方針は`codex/AGENTS.md`に記載します。
+- プロジェクト固有の開発手順は、各リポジトリの`AGENTS.md`に記載します。共通指示に加えて読み込まれ、より具体的な指示が優先されます。
+- コマンド実行の許可・承認要求・禁止は`.rules`で設定します。自然言語の作業指示とは用途が異なります。
+- Codexが許可リストに追記する`default.rules`から共有したいルールだけを、レビューして`shared.rules`に取り込みます。
+- 自作の汎用skillsの追加方法は[skills/README.md](skills/README.md)を参照してください。プロジェクト専用skillsは各リポジトリの`.agents/skills/`で管理します。
+- 組み込み・プラグインのスキル、認証情報、ローカルの履歴・キャッシュは取り込みません。
+
+ルールが複数一致すると最も制限の強い判定が使われます。追加したルールは、Codex CLIがある環境で次のように確認できます。
+
+```sh
+codex execpolicy check --pretty --rules codex/rules/shared.rules -- gh pr view 123
+```
+
+## 公式ドキュメント
+
+- [Skills](https://learn.chatgpt.com/docs/build-skills)
+- [AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md)
+- [コマンド実行ルール](https://learn.chatgpt.com/docs/agent-configuration/rules)

@@ -1,0 +1,4 @@
+# Git管理する共通のコマンド実行ルール。
+# 初期状態では許可・承認要求・禁止を追加しない。
+# prefix_ruleの仕様: https://learn.chatgpt.com/docs/agent-configuration/rules
+# Codexが追記するdefault.rulesとは別のファイルとして管理する。
