@@ -4,12 +4,30 @@
 
 | 管理対象 | ソース | 配置先 | 配置方法 |
 | --- | --- | --- | --- |
+| 各リポジトリへ配布する共通指示 | `AGENTS.md` | 各リポジトリのルートの`AGENTS.md` | `distribute-agents.sh`でコピー |
 | 行動・開発の共通指示 | `codex/AGENTS.md` | `~/.codex/AGENTS.md` | コピー |
 | コマンド実行ルール | `codex/rules/shared.rules` | `~/.codex/rules/shared.rules` | コピー |
 | 自作skills | `skills/<スキル名>/` | `~/.agents/skills/<スキル名>` | シンボリックリンク |
 
 初期の共通指示は、日本語での回答、結論と根拠の簡潔な説明、変更内容と検証結果の報告です。
-実行ルールはコメントのみで、初期状態では許可・禁止を追加しません。skillsも未登録です。
+実行ルールはコメントのみで、初期状態では許可・禁止を追加しません。
+自作skillsとして、明示的な指示がある場合のみコミット・SSHプッシュを行う[git-commit-push](skills/git-commit-push/SKILL.md)を管理しています。
+
+## 各リポジトリへのAGENTS.md配布
+
+ルートの`AGENTS.md`が配布元です。初期状態は空ファイルで、今後、全リポジトリで共有したい指示を記載します。
+`codex/AGENTS.md`とは別に管理します。
+
+配布先のGitリポジトリのルートを指定します。複数指定できます。
+
+```sh
+./distribute-agents.sh --dry-run /path/to/repo-a /path/to/repo-b
+./distribute-agents.sh /path/to/repo-a /path/to/repo-b
+```
+
+同じ内容のファイルはスキップします。異なる既存ファイルやリンクがある場合は、どの配布先にもコピーせず停止します。
+配布元を更新した場合は、各リポジトリの既存の指示を確認・統合するか、バックアップとして移動してから再実行してください。
+コピー後のファイルは各リポジトリでGit管理できます。配布先のコミットやプッシュは行いません。
 
 ## インストール
 
