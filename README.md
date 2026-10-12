@@ -11,7 +11,7 @@
 
 初期の共通指示は、日本語での回答、結論と根拠の簡潔な説明、変更内容と検証結果の報告です。
 実行ルールはコメントのみで、初期状態では許可・禁止を追加しません。
-自作skillsとして、明示的な指示がある場合のみコミット・SSHプッシュを行う[git-commit-push](skills/git-commit-push/SKILL.md)を管理しています。
+自作skillsとして、明示的な指示がある場合のみコミット・SSHプッシュを行う[git-commit-push](skills/git-commit-push/SKILL.md)と、GitHub CLIでPRを作成する[github-pr-create](skills/github-pr-create/SKILL.md)を管理しています。
 
 ## 各リポジトリへのAGENTS.md配布
 
