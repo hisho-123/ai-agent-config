@@ -1,6 +1,6 @@
 # ai-agent-config
 
-すべてのローカルリポジトリで使うCodexの共通指示、コマンド実行ルール、自作skillsをGitで管理します。
+すべてのローカルリポジトリで使うCodexの共通指示、コマンド実行ルール、自作skills、Playwright MCPの導入手順をGitで管理します。
 
 | 管理対象 | ソース | 配置先 | 配置方法 |
 | --- | --- | --- | --- |
@@ -8,6 +8,7 @@
 | 行動・開発の共通指示 | `codex/AGENTS.md` | `~/.codex/AGENTS.md` | コピー |
 | コマンド実行ルール | `codex/rules/shared.rules` | `~/.codex/rules/shared.rules` | コピー |
 | 自作skills | `skills/<スキル名>/` | `~/.agents/skills/<スキル名>` | シンボリックリンク |
+| Playwright MCP | `install-playwright.sh` | Codexのユーザー設定（通常は`~/.codex/config.toml`） | `codex mcp add`で登録 |
 
 初期の共通指示は、日本語での回答、結論と根拠の簡潔な説明、変更内容と検証結果の報告です。
 実行ルールはコメントのみで、初期状態では許可・禁止を追加しません。
@@ -51,6 +52,59 @@ dry-runは衝突を確認し、予定する配置を表示するだけで、デ�
 
 リンクはclone先の絶対パスを参照します。インストール後にclone先を移動した場合は、古いリンクを確認・削除し、再配置してください。
 
+## Playwright MCPの導入
+
+Codexにブラウザでの動作確認を依頼するための共通環境です。`install.sh`とは別に、必要なPCで一度実行します。
+Node.js 18以上、`npx`、Codex CLI、Google Chromeが必要です。
+Chromeが未導入の場合は、[公式サイト](https://www.google.com/chrome/)からインストールするか、
+`npx -y playwright@latest install chrome`で用意してください。Linuxでは追加のOS依存パッケージが必要になる場合があります。
+
+```sh
+./install-playwright.sh --dry-run
+./install-playwright.sh
+codex mcp get playwright
+```
+
+dry-runでは依存コマンドと設定の衝突だけを確認し、ダウンロードや設定変更は行いません。
+通常実行ではパッケージを事前取得してから、以下の構成をCodex CLIで登録します。
+
+```sh
+codex mcp add playwright -- npx -y @playwright/mcp@latest \
+  --browser chrome --headless --isolated
+```
+
+Chromeは画面を表示せずに動作し、ブラウザを閉じるとログイン状態がリセットされます。
+普段使うChromeのログイン状態は引き継ぎません。同じMCPセッション内では状態が維持されます。
+パッケージは`@latest`を使用するため、起動時にnpmの最新バージョンが取得されることがあります。
+
+既存の`playwright`が同じコマンド・引数で有効になっており、追加の実行環境やツール制限がなければスキップします。
+異なる設定があれば、上書きせず停止します。`codex mcp get playwright`で確認し、
+置き換える場合は`codex mcp remove playwright`を実行してから再導入してください。
+既存のモデル設定やほかのMCPは変更しません。`CODEX_HOME`を設定している場合はCodex CLIが選ぶユーザー設定に登録されます。
+プロジェクト固有の`.codex/config.toml`がある場合は、その設定が優先されることがあります。
+
+登録後はCodexを再起動するか、MCPサーバーを再接続します。CLIでは`/mcp`、アプリではMCPサーバー設定で接続を確認できます。
+確認対象のプロジェクトでアプリを起動し、例えば次のように依頼します。
+
+```text
+Playwright MCPを使い、http://localhost:3000 の画面遷移とフォーム送信を確認してください。
+正常系と入力エラーを確認し、期待結果・実際の結果・スクリーンショットの保存先を報告してください。
+確認が終わったらテスト用ブラウザを閉じてください。
+```
+
+対象URL、確認したい操作、期待する結果を指定してください。ログインが必要な場合はテスト用アカウントを用意します。
+認証情報やスクリーンショットなどの確認結果は、この設定リポジトリに取り込みません。
+アプリへのPlaywright Test導入やCIでの定期実行は、対象プロジェクトで別途設定します。
+
+取り外す場合は次を実行し、Codexを再接続します。npmキャッシュやChromeは削除しません。
+
+```sh
+codex mcp remove playwright
+```
+
+導入スクリプトの回帰テストは`bash tests/install-playwright.sh`で実行できます。
+テストではCLIを置き換え、実際のユーザー設定やネットワークへアクセスせずに検証します。
+
 ## 更新と取り外し
 
 1. このリポジトリで設定を編集・レビューし、Git管理します。他のPCでは`git pull --ff-only`で更新します。
@@ -58,8 +112,9 @@ dry-runは衝突を確認し、予定する配置を表示するだけで、デ�
 3. コピーした共通指示・実行ルールが変わると再実行時に衝突します。配置済みファイルを確認・バックアップとして移動してから再実行します。
 4. 実行ルールの変更後はCodexを再起動します。共通指示も新しいセッションで確認します。skillsの変更が表示されない場合は再起動します。
 
-取り外しやスキルの削除・改名では、表にある配置先だけを確認して手動で取り除きます。
+共通指示・実行ルール・skillsの取り外しや改名では、表にある各配置先を確認して手動で取り除きます。
 スクリプトは古いリンクを自動削除しません。
+Playwright MCPは前述の`codex mcp remove playwright`で取り外します。
 
 ## 設定の使い分け
 
@@ -81,3 +136,5 @@ codex execpolicy check --pretty --rules codex/rules/shared.rules -- gh pr view 1
 - [Skills](https://learn.chatgpt.com/docs/build-skills)
 - [AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md)
 - [コマンド実行ルール](https://learn.chatgpt.com/docs/agent-configuration/rules)
+- [CodexのMCP設定](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)
+- [Playwright MCP](https://github.com/microsoft/playwright-mcp)
