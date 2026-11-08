@@ -2,7 +2,7 @@
 
 ## 登録済みスキル
 
-- [git-commit-push](git-commit-push/SKILL.md): 明示的に指示されたコミット・プッシュだけを実行します。プッシュにはSSHを使い、具体的なコマンドと実行条件を記載しています。
+- [git-commit-push](git-commit-push/SKILL.md): 明示的に指示されたコミット・プッシュだけを実行します。差分の目的・性質ごとにコミットを分け、プッシュにはSSHを使います。
 - [github-pr-create](github-pr-create/SKILL.md): 明示的なPR作成依頼に対して、差分の分析、日本語のタイトル・説明文の作成、プッシュ、GitHub CLIによるPR作成・確認を実行します。
 
 ## 追加方法
