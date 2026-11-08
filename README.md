@@ -102,6 +102,9 @@ Playwright MCPを使い、http://localhost:3000 の画面遷移とフォーム�
 codex mcp remove playwright
 ```
 
+導入スクリプトの回帰テストは`bash tests/install-playwright.sh`で実行できます。
+テストではCLIを置き換え、実際のユーザー設定やネットワークへアクセスせずに検証します。
+
 ## 更新と取り外し
 
 1. このリポジトリで設定を編集・レビューし、Git管理します。他のPCでは`git pull --ff-only`で更新します。
