@@ -37,6 +37,8 @@ fork_turns: none
 
 ## レビューと修正の反復
 
+要件定義書・仕様書・設計書の変更には[spec-review](../spec-review/SKILL.md)、コード・設定・DB等の実装変更には[implementation-review](../implementation-review/SKILL.md)を読み、評価基準として使う。両方を含む場合は併用し、仕様・テスト設計書・実装間の整合も確認する。各回のレビュアーへの依頼に、対象に応じた観点スキルの絶対パスと参照指示を含める。
+
 1. 初回を含む各回で、新しい`task_name`のレビュアーを`collaboration.spawn_agent`で作る。`model: gpt-6-astra`、`reasoning_effort: ultra`、`fork_turns: none`を必ず指定する。
 2. レビュアーには依頼、仕様・該当するテスト設計書・指示、絶対パス、固定base SHA、確認済みの回答、検証方法を渡す。前回レビューの結論や修正者の「解決済み」判断は渡さず、最新の実装と差分から独立して判定させる。
 3. レビューは読み取り専用とする。固定baseからHEADまでのコミット済み変更、ステージ済み変更、未ステージ変更、未追跡ファイルをすべて対象にし、削除・名前変更も確認させる。`git diff <固定base>`だけでは未追跡ファイルが入らないため、`git ls-files --others --exclude-standard`等で列挙して内容も確認する。

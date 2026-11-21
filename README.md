@@ -16,9 +16,13 @@
 
 - [coding](skills/coding/SKILL.md): GPT-6.1 Solの高で実装し、GPT-6 Astraのウルトラによる独立レビューと同一agentでの修正を指摘ゼロまで反復します。通常の実装依頼に対し、コミット・SSHプッシュ・PR作成まで進めます。
 - [review](skills/review/SKILL.md): GPT-6 Astraのウルトラによる独立レビューとGPT-6.1 Solの高による同一agentでの修正を指摘ゼロまで反復します。通常のレビュー依頼に対し、修正・コミット・SSHプッシュまで進め、PRは作成しません。
+- [spec-review](skills/spec-review/SKILL.md): 仕様書レビューで、完全性・明確性・整合性・妥当性・テスト可能性と、セキュリティ・非機能・運用・変更影響等を確認します。
+- [implementation-review](skills/implementation-review/SKILL.md): 実装レビューで、仕様準拠・正確性・設計・データ整合・保守性・テスト品質と、セキュリティ・性能・信頼性・互換性等を確認します。
 - [test-design](skills/test-design/SKILL.md): 実装前に、単体・結合・Playwright E2Eのテスト設計書を仕様書リポジトリへ作成します。C0/C1、P0/P1、要件カバレッジ、Flakyの目標と測定条件を定め、アプリ実装時の参照元とテストコード生成・実行の基準にします。
 - [git-commit-push](skills/git-commit-push/SKILL.md): 通常の実装・レビュー依頼や明示的な操作指示に基づき、対象変更をコミット・SSHプッシュします。PR作成に必要なプッシュも行います。
 - [github-pr-create](skills/github-pr-create/SKILL.md): 必要なSSHプッシュを行い、GitHub CLIでPRを作成します。
+
+`coding`・`review`は、レビュー対象に応じて`spec-review`・`implementation-review`を評価基準として参照します。観点スキルの単独利用では、対象を変更せずレビュー結果を報告します。
 
 ## 各リポジトリへのAGENTS.md配布
 
