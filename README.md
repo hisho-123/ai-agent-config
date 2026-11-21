@@ -16,13 +16,14 @@
 
 - [coding](skills/coding/SKILL.md): GPT-6.1 Solの高で実装し、GPT-6 Astraのウルトラによる独立レビューと同一agentでの修正を指摘ゼロまで反復します。通常の実装依頼に対し、コミット・SSHプッシュ・PR作成まで進めます。
 - [review](skills/review/SKILL.md): GPT-6 Astraのウルトラによる独立レビューとGPT-6.1 Solの高による同一agentでの修正を指摘ゼロまで反復します。通常のレビュー依頼に対し、修正・コミット・SSHプッシュまで進め、PRは作成しません。
+- [test-design](skills/test-design/SKILL.md): 実装前に、単体・結合・Playwright E2Eのテスト設計書を仕様書リポジトリへ作成します。C0/C1、P0/P1、要件カバレッジ、Flakyの目標と測定条件を定め、アプリ実装時の参照元とテストコード生成・実行の基準にします。
 - [git-commit-push](skills/git-commit-push/SKILL.md): 通常の実装・レビュー依頼や明示的な操作指示に基づき、対象変更をコミット・SSHプッシュします。PR作成に必要なプッシュも行います。
 - [github-pr-create](skills/github-pr-create/SKILL.md): 必要なSSHプッシュを行い、GitHub CLIでPRを作成します。
 
 ## 各リポジトリへのAGENTS.md配布
 
-ルートの`AGENTS.md`が配布元です。初期状態は空ファイルで、今後、全リポジトリで共有したい指示を記載します。
-`codex/AGENTS.md`とは別に管理します。
+ルートの`AGENTS.md`が配布元です。アプリ実装時に仕様書とテスト設計書を併せて参照し、テスト設計書を正解としてテストコードを生成・実行する共通方針を記載しています。
+`codex/AGENTS.md`とは別に管理し、テスト方針はどちらの配置方法でも適用できるよう両方に記載しています。
 
 配布先のGitリポジトリのルートを指定します。複数指定できます。
 
