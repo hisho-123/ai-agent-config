@@ -2,8 +2,10 @@
 
 ## 登録済みスキル
 
-- [git-commit-push](git-commit-push/SKILL.md): 明示的に指示されたコミット・プッシュだけを実行します。差分の目的・性質ごとにコミットを分け、プッシュにはSSHを使います。
-- [github-pr-create](github-pr-create/SKILL.md): 明示的なPR作成依頼に対して、差分の分析、日本語のタイトル・説明文の作成、プッシュ、GitHub CLIによるPR作成・確認を実行します。
+- [coding](coding/SKILL.md): GPT-6.1 Solの高で実装し、GPT-6 Astraのウルトラによる独立レビューと同一agentでの修正を指摘ゼロまで反復します。通常の実装依頼に対し、コミット・SSHプッシュ・PR作成まで進めます。
+- [review](review/SKILL.md): GPT-6 Astraのウルトラによる独立レビューとGPT-6.1 Solの高による同一agentでの修正を指摘ゼロまで反復します。通常のレビュー依頼に対し、修正・コミット・SSHプッシュまで進め、PRは作成しません。
+- [git-commit-push](git-commit-push/SKILL.md): 通常の実装・レビュー依頼や明示的な操作指示に基づき、対象変更をコミット・SSHプッシュします。差分の目的・性質ごとにコミットを分け、PR作成に必要なプッシュも行います。
+- [github-pr-create](github-pr-create/SKILL.md): PR作成依頼を必要なプッシュの許可も含むものとして扱い、差分の分析、日本語のタイトル・説明文の作成、SSHプッシュ、GitHub CLIによるPR作成・確認を実行します。
 
 ## 追加方法
 

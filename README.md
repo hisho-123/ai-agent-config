@@ -12,7 +12,12 @@
 
 初期の共通指示は、日本語での回答、結論と根拠の簡潔な説明、変更内容と検証結果の報告です。
 実行ルールはコメントのみで、初期状態では許可・禁止を追加しません。
-自作skillsとして、明示的な指示がある場合のみコミット・SSHプッシュを行う[git-commit-push](skills/git-commit-push/SKILL.md)と、GitHub CLIでPRを作成する[github-pr-create](skills/github-pr-create/SKILL.md)を管理しています。
+自作skillsとして、以下を管理しています。
+
+- [coding](skills/coding/SKILL.md): GPT-6.1 Solの高で実装し、GPT-6 Astraのウルトラによる独立レビューと同一agentでの修正を指摘ゼロまで反復します。通常の実装依頼に対し、コミット・SSHプッシュ・PR作成まで進めます。
+- [review](skills/review/SKILL.md): GPT-6 Astraのウルトラによる独立レビューとGPT-6.1 Solの高による同一agentでの修正を指摘ゼロまで反復します。通常のレビュー依頼に対し、修正・コミット・SSHプッシュまで進め、PRは作成しません。
+- [git-commit-push](skills/git-commit-push/SKILL.md): 通常の実装・レビュー依頼や明示的な操作指示に基づき、対象変更をコミット・SSHプッシュします。PR作成に必要なプッシュも行います。
+- [github-pr-create](skills/github-pr-create/SKILL.md): 必要なSSHプッシュを行い、GitHub CLIでPRを作成します。
 
 ## 各リポジトリへのAGENTS.md配布
 
